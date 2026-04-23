@@ -10,14 +10,14 @@ class TestGerenciadorAgenda(TestCase):
         gerenciador = RealizarAgendamento()
         
         # Criando médico e paciente
-        medico = Medico("Dr House", "08:00", "12:00")
-        paciente = Paciente("Matheus", "01/01/1980", "11999999999")
+        medico = Medico("Dr House", "12345678900", "08:00", "12:00")
+        paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
         
         # Agendando consulta
         resultado = gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "10:00")
         
         # Verificando se o horário foi agendado
-        print(f"\nHorários disponíveis do {medico.nome}: {medico.horarios_disponiveis}")
+        # print(f"\nHorários disponíveis do {medico.nome}: {medico.horarios_disponiveis}")
         
         self.assertTrue(resultado)
 
@@ -25,8 +25,8 @@ class TestGerenciadorAgenda(TestCase):
         gerenciador = RealizarAgendamento()
 
         # Criando médico e paciente
-        medico = Medico("Dr House", "08:00", "12:00")
-        paciente = Paciente("Matheus", "01/01/1980", "55984039186")
+        medico = Medico("Dr House", "12345678900", "08:00", "12:00")
+        paciente = Paciente("Matheus", "11122233344", "01/01/1980", "55984039186")
 
         # Agendando e verificando se a consulta foi agendada com sucesso
         resultado = gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "10:00")
@@ -35,8 +35,6 @@ class TestGerenciadorAgenda(TestCase):
         # Cancelando e verificando se a consulta foi cancelada com sucesso
         resultado = gerenciador.cancelar_consulta(medico, "10:00")
         self.assertTrue(resultado)
-
-        print(f"Horários disponíveis do {medico.nome}: {medico.horarios_disponiveis}")
 
     def test_horario_invalido(self):
         gerenciador = RealizarAgendamento()
@@ -53,8 +51,8 @@ class TestGerenciadorAgenda(TestCase):
 
     def test_agendamento_fora_do_horario(self):
         gerenciador = RealizarAgendamento()
-        medico = Medico("Dr House", "08:00", "10:00")
-        paciente = Paciente("Matheus", "01/01/1980", "11999999999")
+        medico = Medico("Dr House", "12345678900", "08:00", "10:00")
+        paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
         
         with self.assertRaises(ValueError) as context:
             gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "11:00")
@@ -63,9 +61,9 @@ class TestGerenciadorAgenda(TestCase):
     def test_prevencao_sobreposicao_conflito_agendamento(self):
         # Prevenção de Sobreposição (agendar no mesmo horário já agendado)
         gerenciador = RealizarAgendamento()
-        medico = Medico("Dr House", "08:00", "10:00")
-        paciente1 = Paciente("Matheus", "01/01/1980", "11999999999")
-        paciente2 = Paciente("Douglas", "02/02/1990", "11888888888")
+        medico = Medico("Dr House", "12345678900", "08:00", "10:00")
+        paciente1 = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
+        paciente2 = Paciente("Douglas", "55566677788", "02/02/1990", "11888888888")
         
         # Primeiro agendamento ok
         gerenciador.agendar_consulta(medico, paciente1, "2026-04-23", "09:00")

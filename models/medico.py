@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 @dataclass
 class Medico:
     nome: str
+    cpf: str
     horario_inicio: str
     horario_fim: str
     horarios_disponiveis: List[str] = field(init=False)
@@ -30,4 +31,4 @@ class Medico:
         return horarios
 
     def __str__(self):
-        return f"Dr(a). {self.nome}"
+        return f"Dr(a). {self.nome} (CPF: {self.cpf})"

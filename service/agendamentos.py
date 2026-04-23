@@ -66,6 +66,8 @@ class RealizarAgendamento():
         except (ValueError, IndexError, TypeError):
             return False
 
+    def listar_agendamentos(self, medico: Medico) -> list[str]:
+        return self._consultas_agendadas
 
     # Metodos de funcionalidades extras
     def listar_horarios_disponiveis(self, medico: Medico) -> list[str]:
