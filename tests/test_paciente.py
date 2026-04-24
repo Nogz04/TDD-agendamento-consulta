@@ -1,5 +1,6 @@
 from unittest import TestCase
 from models.paciente import Paciente
+from enums.mensagens_erro import MensagensErro
 
 class TestPaciente(TestCase):
     
@@ -18,4 +19,12 @@ class TestPaciente(TestCase):
         paciente1 = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
         paciente2 = Paciente("Lucas", "11122233344", "02/02/1990", "11999999999")
         self.assertEqual(paciente1.cpf, paciente2.cpf)
+
+    def test_paciente_com_dados_invalidos(self):
+        with self.assertRaises(ValueError) as context:
+            paciente = Paciente("", "11122233344", "01/01/1980", "11999999999")
+        self.assertEqual(str(context.exception), MensagensErro.PACIENTE_DADOS_INVALIDOS.value)
+        with self.assertRaises(ValueError) as context:
+            paciente = Paciente("Matheus", "", "01/01/1980", "11999999999")
+        
         

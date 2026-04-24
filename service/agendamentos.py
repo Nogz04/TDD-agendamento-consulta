@@ -73,6 +73,9 @@ class RealizarAgendamento():
     def listar_horarios_disponiveis(self, medico: Medico) -> list[str]:
         return medico.horarios_disponiveis
 
+    def listar_consultas_por_paciente(self, paciente: Paciente) -> list[str]:
+        return [consulta for consulta in self._consultas_agendadas if paciente.cpf in consulta]
+
     def listar_consultas_agendadas(self) -> list[str]:
         return self._consultas_agendadas
 

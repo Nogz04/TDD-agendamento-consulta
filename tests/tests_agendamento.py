@@ -5,6 +5,9 @@ from models.paciente import Paciente
 from service.agendamentos import RealizarAgendamento
 
 class TestGerenciadorAgenda(TestCase):
+
+    def setUp(self):
+        Medico.limpar_registros() # Limpa o registro de médicos antes de cada teste, para que os testes não interfiram uns nos outros
     
     def test_agenda_consulta_com_sucesso(self):
         gerenciador = RealizarAgendamento()
