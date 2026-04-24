@@ -26,6 +26,11 @@ class RealizarAgendamento():
         if hora not in medico.horarios_disponiveis:
             medico.horarios_disponiveis.append(hora)
             medico.horarios_disponiveis.sort() # Ordena a lista
+            
+            consultas_a_remover = [c for c in self._consultas_agendadas if f"{medico.nome} -" in c and f"às {hora}" in c]
+            for c in consultas_a_remover:
+                self._consultas_agendadas.remove(c)
+                
             return True
         return False  
 
