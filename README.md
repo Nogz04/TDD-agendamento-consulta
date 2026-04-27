@@ -1,15 +1,84 @@
-## PARA SEGUNDA-FEIRA
+# PARA SEGUNDA-FEIRA
 
-> 1- Falta explicar o código
->
-> 2 - Como executar o projeto? 
->
-> 3 - Como executar os testes?
->
-> 4 - Como executar o menu (main.py)
->
-> 5 - Explicar o que é o diagrama de C4 e criar o do meu projeto.
->
-> 6 - Verificar se o código dos menus estão Ok
->
-> 7 - Quando finalizado, se houver mudanças, commitar em uma branch nova, mandar para o vini e ficar testando o sistema da GestãoDS para estudo.
+## Tarefas
+
+1. Explicar o que é o diagrama de C4 e criar o do meu projeto  
+2. Verificar se o código dos menus estão Ok  
+3. Quando finalizado, se houver mudanças, commitar em uma branch nova, mandar para o vini e ficar testando o sistema da GestãoDS para estudo  
+
+---
+
+# Objetivo
+
+O objetivo dessa implementação é desenvolver um sistema simples de agendamento de consultas médicas seguindo a metodologia de desenvolvimento TDD (Test-Driven Development - Desenvolvimento Orientado a Testes) onde as classes de testes do sistema são desenvolvidas antes da lógica das services (métodos funcionais do sistema), o sistema terá diversas regras de negócio, funcionalidades e um Menu no terminal para testar as funcionalidades do sistema.
+
+---
+
+# Regras de Negócio do Sistema
+
+## Tests Médico(a)
+
+1. Testa a criação bem sucedida de um médico  
+2. Testa a criação bem sucedida de uma grade de horários, informando um intervalo de horários  
+3. Testa a criação errada de uma grade de horários, caso o médico informa um intervalo errado  
+4. Testa a criação de um médico com dados obrigatórios faltando (como Nome e CPF)  
+5. Testa de um médico já está cadastrado no mesmo CPF  
+
+---
+
+## Tests Paciente
+
+1. Testa a criação bem sucedida de um paciente  
+2. Testa a exibição de um paciente em string para leitura do usuário final  
+3. Testa uma verificação se um paciente está tentando efetuar o cadastro com o mesmo CPF de outro paciente já cadastrado  
+4. Testa a criação de um paciente com dados obrigatórios faltando (como Nome e CPF)  
+
+---
+
+## Tests Agendamento
+
+1. Testa a criação de um agendamento de uma consulta com sucesso  
+2. Testa o cancelamento de uma consulta com sucesso  
+3. Testa o agendamento de uma consulta informando um horário inválido  
+4. Testa o agendamento de uma consulta fora do horário de trabalho do(a) médico(a)  
+5. Testa o agendamento de uma consulta no mesmo horário que outra pessoa já agendou  
+
+---
+
+# Como executar o projeto
+
+## 1 - Clone esse repositório na branch V3
+
+```python
+git clone --single-branch --branch <nome_do_branch> <url_do_repositorio>
+git clone --single-branch --branch V3 https://github.com/Nogz04/TDD-agendamento-consulta.git
+```
+
+2- Abra o terminal e crie e inicie o venv
+
+```python
+Ctrl + ' # -> Abre o terminal
+
+python -m venv venv # Cria o ambiente virtual
+.\venv\Scripts\activate # Entra no ambiente virtual
+```
+
+3- Baixe o requirements.txt no terminal (se houver algo na pasta)
+
+```python
+pip install -r requirements.txt
+```
+
+4- Inicie o menu do sistema no terminal
+
+```python
+python .\main.py # Inicia o menu no terminal para você testar o sistema
+
+# O sistema irá executar todos os testes antes de iniciar o menu, se todos passarem, o menu irá iniciar.
+```
+
+5- Rodando testes sem precisar rodar o menu
+
+```python
+python -m unittest discover tests
+```
