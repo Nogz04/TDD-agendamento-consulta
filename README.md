@@ -14,6 +14,32 @@ O objetivo dessa implementação é desenvolver um sistema simples de agendament
 
 ---
 
+# Estrutura do Projeto
+
+```python
+TDD-Agendamento-Consulta/               # Diretório raiz do projeto
+|--- enums/                             # Pasta contendo enumeradores com variáveis estáticas como mensagens de erros, etc...
+|    |--- mensagens_erro.py             # Centraliza as mensagens de erro padronizadas do sistema
+|--- models/                            # Pasta com as classes de modelo (entidades fundamentais de negócio)
+|    |--- medico.py                     # Define as características e comportamentos da entidade Médico
+|    |--- paciente.py                   # Define as características e comportamentos da entidade Paciente
+|--- service/                           # Pasta para regras de negócio mais complexas e orquestração
+|    |--- agendamentos.py               # Contém a lógica para realizar, validar e gerenciar agendamentos
+|--- tests/                             # Pasta com toda a suíte de testes automatizados (essencial para o TDD)
+|    |--- test_medico.py                # Testes unitários para garantir o correto funcionamento do modelo Médico
+|    |--- test_paciente.py              # Testes unitários para garantir o correto funcionamento do modelo Paciente
+|    |--- tests_agendamento.py          # Testes das regras de negócio do serviço de agendamentos
+|--- C4/                                # Pasta que será utilizada para documentação arquitetural (Diagramas C4 Model)
+|--- .gitignore                         # Arquivo de configuração que avisa o Git quais arquivos o versionamento deve ignorar
+|--- main.py                            # Arquivo principal que inicia todo o sistema (Entry Point)
+|--- menu_medico.py                     # Telas e interações via terminal (CLI) específicas para o usuário Médico
+|--- menu_paciente.py                   # Telas e interações via terminal (CLI) específicas para o usuário Paciente
+|--- menu_secretaria.py                 # Telas e interações via terminal (CLI) para os administradores/secretaria
+|--- requirements.txt                   # Lista com todas as bibliotecas e dependências Python necessárias para o projeto rodar
+
+```
+---
+
 # Regras de Negócio do Sistema
 
 ## Tests Médico(a)
