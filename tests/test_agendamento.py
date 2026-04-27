@@ -87,3 +87,32 @@ class TestGerenciadorAgenda(TestCase):
         self.assertEqual(
             str(context.exception), MensagensErro.CONFLITO_DE_HORARIO.value
         )
+
+    def test_cancelar_consulta_nao_existente_retorna_falso(self):
+        gerenciador = RealizarAgendamento()
+        medico = Medico("Dr House", "12345678900", "08:00", "12:00")
+
+        # Tentando cancelar um horário que nunca foi agendado ("11:00" ainda está disponível na grade)
+        resultado = gerenciador.cancelar_consulta(medico, "11:00")
+        self.assertFalse(resultado)
+
+        # Testando falha proposital no removedor interno
+        self.assertFalse(gerenciador.remover_horario_disponivel(medico, "99:99"))
+
+    def test_validar_formato_com_tipo_incorreto(self):
+        gerenciador = RealizarAgendamento()
+        # Forçando um erro de TypeError para o bloco try-except da validação
+        self.assertFalse(gerenciador.validar_formato_horario({}))
+
+    def test_listagens_de_consultas_e_horarios(self):
+        gerenciador = RealizarAgendamento()
+        medico = Medico("Dr House", "12345678900", "08:00", "12:00")
+        paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
+
+        gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "10:00")
+
+        self.assertEqual(len(gerenciador.consultas_agendadas), 1)
+        self.assertEqual(len(gerenciador.listar_consultas_agendadas()), 1)
+        self.assertEqual(len(gerenciador.listar_agendamentos(medico)), 1)
+        self.assertEqual(len(gerenciador.listar_horarios_disponiveis(medico)), 8)
+        self.assertEqual(len(gerenciador.listar_consultas_por_paciente(paciente)), 1)

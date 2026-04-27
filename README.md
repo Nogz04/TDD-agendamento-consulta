@@ -1,6 +1,6 @@
 # 🏥 TDD Agendamento de Consultas Médicas
 
-![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![Python](https://img.shields.io/badge/Python-3.13-blue)
 ![TDD](https://img.shields.io/badge/TDD-100%25_Coverage-green)
 ![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Pylint](https://img.shields.io/badge/Pylint-10.00%2F10-brightgreen)
@@ -41,6 +41,7 @@ TDD-Agendamento-Consulta/
 ├── pyproject.toml              # Central de configurações avançadas do Pytest, Mypy e Pylint
 ├── requirements-dev.txt        # Dependências exclusivas para desenvolvimento e arquitetura
 ├── requirements.txt            # Dependências exclusivas do ciclo de produção (Vazio por design)
+├── check.ps1                   # Script de automação (Pipeline local) para rodar testes e linting
 └── main.py                     # Entry Point Primário - Bloqueado por validação de testes
 ```
 
@@ -130,4 +131,10 @@ pre-commit install
   ```bash
   mypy .                           # Revisor de Tipo de Dados (Evita que receba Texto no lugar de Float, etc...)
   pylint models service main.py    # Avaliador de Saúde Qualitativa e Atribuidor de Notas de 0 a 10
+  ```
+
+* **Automação Completa da Esteira (Pipeline Local)**
+  Caso prefira não rodar os comandos um por um, utilize nosso script integrado:
+  ```bash
+  .\check.ps1                      # Executa Pytest, Black, Isort, Flake8, Mypy e Pylint de uma só vez!
   ```

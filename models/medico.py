@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime, timedelta
-from typing import List
+from typing import ClassVar, List
 
 from enums.mensagens_erro import MensagensErro
 
@@ -13,7 +13,7 @@ class Medico:
     horario_fim: str
     horarios_disponiveis: List[str] = field(init=False)
 
-    _registros: set[str] = (
+    _registros: ClassVar[set[str]] = (
         set()
     )  # Cria um conjunto para armazenar os dados dos medicos instanciados, tipo um mini banco de dados
 

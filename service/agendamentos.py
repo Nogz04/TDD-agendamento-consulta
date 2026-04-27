@@ -96,7 +96,7 @@ class RealizarAgendamento:
         return [
             consulta
             for consulta in self._consultas_agendadas
-            if paciente.cpf in consulta
+            if f"- {paciente.nome} em" in consulta
         ]
 
     def listar_consultas_agendadas(self) -> list[str]:

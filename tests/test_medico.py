@@ -46,3 +46,7 @@ class TestMedico(TestCase):
         self.assertEqual(
             str(context.exception), MensagensErro.MEDICO_JA_CADASTRADO.value
         )
+
+    def test_str_medico(self):
+        medico = Medico("Dr House", "12345678900", "08:00", "10:00")
+        self.assertEqual(str(medico), "Dr(a). Dr House (CPF: 12345678900)")
