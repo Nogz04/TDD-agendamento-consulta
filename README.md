@@ -1,10 +1,7 @@
-# PARA SEGUNDA-FEIRA
-
 ## Tarefas
 
-1. Explicar o que é o diagrama de C4 e criar o do meu projeto  
-2. Verificar se o código dos menus estão Ok  
-3. Quando finalizado, se houver mudanças, commitar em uma branch nova, mandar para o vini e ficar testando o sistema da GestãoDS para estudo  
+1. Explicar o que é o diagrama de C4 e criar o do meu projeto
+2. Pesquisar os requirements dev 
 
 ---
 
