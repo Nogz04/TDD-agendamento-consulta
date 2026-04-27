@@ -1,0 +1,21 @@
+-r requirements.txt
+
+# --- 1. Ferramentas de Teste (Essencial do TDD) ---
+pytest               # Roda e organiza os testes de forma melhor que o unittest nativo
+pytest-cov           # Super prático: Cria relatórios para te dizer quantos % do seu projeto está coberto por testes.
+
+# --- 2. Qualidade e Formatação de Código ---
+isort                # Arruma todas as suas linhas de `import` (colocando em ordem alfabética etc) no topo.
+black                # Deixa o código esteticamente dentro do padrão PEP-8 mundial automaticamente
+flake8               # Fica brigando com você apontando variáveis inutilizadas e probleminhas invisíveis
+
+
+# --- 3. Facilidades / Debug ---
+ipython              # Terminal interativo melhorado
+
+# --- 4. Análise Avançada ---
+mypy                 # Verificador estático de tipagem
+pylint               # Linter rigoroso e avaliador arquitetural
+
+# --- 5. Automação Git ---
+pre-commit           # Intercepta e arruma commits ruins

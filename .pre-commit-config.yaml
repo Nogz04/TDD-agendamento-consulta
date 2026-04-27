@@ -1,0 +1,23 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0 # Revisão base de regras de git
+    hooks:
+    -   id: trailing-whitespace   # Remove espaços inúteis no fim das linhas
+    -   id: end-of-file-fixer     # Garante que todo arquivo termina com uma linha vazia (padrão UNIX)
+    -   id: check-yaml
+    -   id: check-added-large-files
+
+-   repo: https://github.com/PyCQA/isort
+    rev: 5.13.2
+    hooks:
+    -   id: isort
+
+-   repo: https://github.com/psf/black
+    rev: 24.3.0
+    hooks:
+    -   id: black
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 7.0.0
+    hooks:
+    -   id: flake8

@@ -1,3 +1,49 @@
-venv
-__pycache__
+# =========================================================
+# Ambientes Virtuais e Segurança de Dados sensíveis(Python)
+# =========================================================
+venv/
+.venv/
+env/
+ENV/
+
+# ==================================
+# Compilados e Caches Nativo (Python)
+# ==================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ==================================
+# Ferramentas de Teste e Qualidade
+# ==================================
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.pylint_cache/
+.isort_caches/
+.pylint.d/
+cov_report.txt
+
+# ==================================
+# Integração Contínua e Commits
+# ==================================
+.tox/
+.nox/
+.git/hooks/
+
+# ==================================
+# IDE e Sistema Operacional
+# ==================================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ==================================
+# Variáveis de Configuração Privada
+# ==================================
 .env
+.env.local
+*.secret

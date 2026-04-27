@@ -1,6 +1,7 @@
 from models.medico import Medico
 from models.paciente import Paciente
 
+
 def cadastrar_paciente_adm(app):
     nome = input("Nome do paciente: ")
     cpf = input("CPF do paciente: ")
@@ -17,6 +18,7 @@ def cadastrar_paciente_adm(app):
         print(f"Paciente {nome} cadastrado com sucesso!")
     except Exception as e:
         print(f"Erro ao cadastrar paciente: {e}")
+
 
 def realizar_agendamento_adm(app):
     if not app.medicos:
@@ -62,6 +64,7 @@ def realizar_agendamento_adm(app):
     except Exception as e:
         print(f"Erro ao agendar: {e}")
 
+
 def cancelar_consulta_adm(app):
     if not app.medicos:
         print("Não há médicos cadastrados no sistema.")
@@ -85,6 +88,7 @@ def cancelar_consulta_adm(app):
         print("Consulta de horário liberada na agenda do médico com sucesso.")
     else:
         print("Falha ao cancelar: o horário não constava como agendado.")
+
 
 def executar(app):
     while True:
@@ -127,18 +131,40 @@ def executar(app):
                 print(f"{medico}: {', '.join(horarios)}")
         elif opcao == "5":
             busca = input("Nome ou CPF do médico: ")
-            medico = next((m for m in app.medicos if m.cpf == busca or busca.lower() in m.nome.lower()), None)
+            medico = next(
+                (
+                    m
+                    for m in app.medicos
+                    if m.cpf == busca or busca.lower() in m.nome.lower()
+                ),
+                None,
+            )
             if medico:
                 agendamentos = app.gerenciador.listar_agendamentos(medico)
-                print(f"Agendamentos do {medico.nome}:\n" + "\n".join(agendamentos) if agendamentos else "Nenhum agendamento.")
+                print(
+                    f"Agendamentos do {medico.nome}:\n" + "\n".join(agendamentos)
+                    if agendamentos
+                    else "Nenhum agendamento."
+                )
             else:
                 print("Médico não encontrado.")
         elif opcao == "6":
             busca = input("Nome ou CPF do paciente: ")
-            paciente = next((p for p in app.pacientes if p.cpf == busca or busca.lower() in p.nome.lower()), None)
+            paciente = next(
+                (
+                    p
+                    for p in app.pacientes
+                    if p.cpf == busca or busca.lower() in p.nome.lower()
+                ),
+                None,
+            )
             if paciente:
                 agendamentos = app.gerenciador.listar_consultas_por_paciente(paciente)
-                print(f"Agendamentos do {paciente.nome}:\n" + "\n".join(agendamentos) if agendamentos else "Nenhum agendamento.")
+                print(
+                    f"Agendamentos do {paciente.nome}:\n" + "\n".join(agendamentos)
+                    if agendamentos
+                    else "Nenhum agendamento."
+                )
             else:
                 print("Paciente não encontrado.")
         elif opcao == "7":

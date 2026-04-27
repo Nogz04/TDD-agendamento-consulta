@@ -1,10 +1,11 @@
 from models.paciente import Paciente
 
+
 def realizar_agendamento_paciente(app, paciente):
     if not app.medicos:
         print("Não há médicos disponíveis.")
         return
-        
+
     print("\nMédicos disponíveis:")
     for i, m in enumerate(app.medicos):
         print(f"{i+1}. {m.nome}")
@@ -28,12 +29,13 @@ def realizar_agendamento_paciente(app, paciente):
     except Exception as e:
         print(f"Erro ao agendar: {e}")
 
+
 def cancelar_consulta_paciente(app, paciente):
     agendamentos = app.gerenciador.listar_consultas_por_paciente(paciente)
     if not agendamentos:
         print("Você não tem nenhuma consulta agendada para cancelar.")
         return
-        
+
     print("\nSuas consultas agendadas:")
     for i, ag in enumerate(agendamentos):
         print(f"{i+1}. {ag}")
@@ -51,11 +53,11 @@ def cancelar_consulta_paciente(app, paciente):
 
     # Extrai a hora: "Consulta: Dr House - Matheus em 23/04/2026 às 10:00"
     hora = consulta_escolhida.split(" às ")[-1]
-    
+
     # Extrai o nome do médico
     nome_e_resto = consulta_escolhida.replace("Consulta: ", "")
     nome_medico_str = nome_e_resto.split(" - ")[0]
-    
+
     medico_alvo = next((m for m in app.medicos if m.nome == nome_medico_str), None)
     if not medico_alvo:
         print("Erro: Médico associado não encontrado no sistema.")
@@ -64,7 +66,10 @@ def cancelar_consulta_paciente(app, paciente):
     if app.gerenciador.cancelar_consulta(medico_alvo, hora):
         print("Consulta desmarcada com sucesso.")
     else:
-        print("Falha ao cancelar: o horário não constava como agendado com este médico.")
+        print(
+            "Falha ao cancelar: o horário não constava como agendado com este médico."
+        )
+
 
 def executar(app):
     cpf = input("Informe seu CPF: ")

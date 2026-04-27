@@ -1,5 +1,6 @@
 from models.paciente import Paciente
 
+
 def cadastrar_paciente_medico(app):
     nome = input("Nome do paciente: ")
     cpf = input("CPF do paciente: ")
@@ -17,11 +18,12 @@ def cadastrar_paciente_medico(app):
     except Exception as e:
         print(f"Erro ao cadastrar paciente: {e}")
 
+
 def realizar_agendamento_medico(app, medico):
     if not app.pacientes:
         print("Não há pacientes cadastrados no sistema. Cadastre um primeiro.")
         return
-        
+
     print("\nPacientes cadastrados:")
     for i, p in enumerate(app.pacientes):
         print(f"{i+1}. {p.nome} (CPF: {p.cpf})")
@@ -44,6 +46,7 @@ def realizar_agendamento_medico(app, medico):
             print("Agendamento realizado com sucesso!")
     except Exception as e:
         print(f"Erro ao agendar: {e}")
+
 
 def executar(app):
     if not app.medicos:

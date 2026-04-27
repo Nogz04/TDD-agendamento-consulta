@@ -1,9 +1,11 @@
 from unittest import TestCase
-from models.paciente import Paciente
+
 from enums.mensagens_erro import MensagensErro
+from models.paciente import Paciente
+
 
 class TestPaciente(TestCase):
-    
+
     def test_criar_paciente(self):
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
         self.assertEqual(paciente.nome, "Matheus")
@@ -13,7 +15,9 @@ class TestPaciente(TestCase):
 
     def test_str_paciente(self):
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
-        self.assertEqual(str(paciente), "Matheus (CPF: 11122233344) - 01/01/1980 - 11999999999")
+        self.assertEqual(
+            str(paciente), "Matheus (CPF: 11122233344) - 01/01/1980 - 11999999999"
+        )
 
     def test_verifica_se_pacientes_tem_mesmo_cpf(self):
         paciente1 = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
@@ -22,9 +26,9 @@ class TestPaciente(TestCase):
 
     def test_paciente_com_dados_invalidos(self):
         with self.assertRaises(ValueError) as context:
-            paciente = Paciente("", "11122233344", "01/01/1980", "11999999999")
-        self.assertEqual(str(context.exception), MensagensErro.PACIENTE_DADOS_INVALIDOS.value)
+            Paciente("", "11122233344", "01/01/1980", "11999999999")
+        self.assertEqual(
+            str(context.exception), MensagensErro.PACIENTE_DADOS_INVALIDOS.value
+        )
         with self.assertRaises(ValueError) as context:
-            paciente = Paciente("Matheus", "", "01/01/1980", "11999999999")
-        
-        
+            Paciente("Matheus", "", "01/01/1980", "11999999999")
