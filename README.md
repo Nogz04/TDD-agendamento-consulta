@@ -21,28 +21,28 @@ Abaixo apresentamos a árvore arquitetural deste sistema:
 
 ```text
 TDD-Agendamento-Consulta/
-├── enums/                      # Constantes e Enumeradores
-│   └── mensagens_erro.py       # Centraliza avisos do sistema (ex: Paciente já cadastrado, etc)
-├── menus/                      # Telas de Interação com o Usuário (Terminal Inteligente)
-│   ├── menu_medico.py
-│   ├── menu_paciente.py
-│   └── menu_secretaria.py
-├── models/                     # Entidades de Negócio do Domínio
-│   ├── medico.py               # Define as propriedades e atributos inerentes de um Médico
-│   └── paciente.py             # Define as propriedades e atributos inerentes de um Paciente
-├── service/                    # Orquestração e Lógica de Negócio
-│   └── agendamentos.py         # Motor principal que acopla lógicas de busca e verificação
+├── src/                        # Código-fonte principal da aplicação
+│   ├── enums/                  # Constantes e Enumeradores
+│   │   └── mensagens_erro.py
+│   ├── menus/                  # Telas de Interação com o Usuário
+│   │   ├── menu_medico.py
+│   │   ├── menu_paciente.py
+│   │   └── menu_secretaria.py
+│   ├── models/                 # Entidades de Negócio do Domínio
+│   │   ├── medico.py
+│   │   └── paciente.py
+│   ├── service/                # Orquestração e Lógica de Negócio
+│   │   └── agendamentos.py
+│   └── main.py                 # Entry Point Primário
 ├── tests/                      # Suíte integral de Testes Unitários de TDD
 │   ├── test_agendamento.py
 │   ├── test_medico.py
 │   └── test_paciente.py
 ├── C4/                         # Diagramas Contextuais da Arquitetura (C4 Model)
 ├── .pre-commit-config.yaml     # Regras de proteção do Git Hooks contra envios fora de padrão
-├── pyproject.toml              # Central de configurações avançadas do Pytest, Mypy e Pylint
+├── pyproject.toml              # Central de configurações avançadas (Taskipy, Pytest, Mypy, Pylint)
 ├── requirements-dev.txt        # Dependências exclusivas para desenvolvimento e arquitetura
-├── requirements.txt            # Dependências exclusivas do ciclo de produção (Vazio por design)
-├── check.ps1                   # Script de automação (Pipeline local) para rodar testes e linting
-└── main.py                     # Entry Point Primário - Bloqueado por validação de testes
+└── requirements.txt            # Dependências da aplicação (ex: bibliotecas visuais como rich)
 ```
 
 ---
@@ -89,12 +89,16 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-*(Observação Importante: Apesar das boas práticas indicarem `pip install -r requirements.txt`, informamos que nosso projeto não depende de nenhuma lib externa em estado de Produção! Todo o core utiliza apenas bibliotecas padrões fornecidas pela base da linguagem Python).*
+*(Observação Importante: Apesar das boas práticas indicarem `pip install -r requirements.txt`, nosso projeto possui pouquíssimas bibliotecas externas em Produção, limitando-se apenas a melhorias visuais de CLI, como o `rich`!)*
 
 **3. Inicie o Módulo Principal:**
-O terminal fará uma varredura rigorosa. Se nem sequer uma das regras do sistema estiver quebrada, os acessos serão liberados.
+Você pode rodar facilmente a aplicação através do nosso gerenciador de tarefas (caso tenha instalado as dependências de dev) ou diretamente pelo Python:
 ```bash
-python main.py
+# Se tiver instalado as dependências de desenvolvedor:
+task run
+
+# Se não tiver instalado dependências (puro Python):
+python src/main.py
 ```
 
 ---
@@ -115,26 +119,27 @@ Instale o fiscal de Git! Da próxima vez que você realizar um `git commit`, rob
 pre-commit install
 ```
 
-### 🧰 Principais Comandos do Cotidiano:
+### 🧰 Principais Comandos do Cotidiano (Via Taskipy):
 
-* **Iniciação de TDD e Emissão de Cobertura Final de Código (`Pytest`)**
+O nosso projeto aboliu scripts de sistema operacional e agora usa o **Taskipy** em conjunto com o `pyproject.toml` para ser 100% multiplataforma.
+
+Basta rodar os atalhos abaixo no seu terminal:
+
+* **Iniciação de TDD e Emissão de Cobertura Final de Código**
   ```bash
-  pytest -v                                # Inspeção Detalhada
-  pytest --cov=. --cov-report=term-missing # Relatório Tático e apuração de pontos cegos
+  task test        # Roda o Pytest com relatório de cobertura das pastas src/ e tests/
   ```
-* **Estética de Código Cega (`Black` e `Isort`)**
+* **Estética de Código Cega**
   ```bash
-  isort .          # Varre seus Cabeçalhos para deixá-los alfabéticos e dividos
-  black .          # Reforma Milimetricamente margens, quebras e espaçamentos no padrão PEP8
+  task format      # Aciona Black e Isort de uma só vez para arrumar seu código
   ```
-* **Análise Lógica Externa (`Pylint` e `Mypy`)**
+* **Análise Lógica Externa**
   ```bash
-  mypy .                           # Revisor de Tipo de Dados (Evita que receba Texto no lugar de Float, etc...)
-  pylint models service main.py    # Avaliador de Saúde Qualitativa e Atribuidor de Notas de 0 a 10
+  task lint        # Executa o Flake8 e o rigoroso Pylint
+  task typecheck   # Validação estática de tipagem de dados via Mypy
   ```
 
-* **Automação Completa da Esteira (Pipeline Local)**
-  Caso prefira não rodar os comandos um por um, utilize nosso script integrado:
+* **Automação Completa da Esteira (Sua Pipeline Local)**
   ```bash
-  .\check.ps1                      # Executa Pytest, Black, Isort, Flake8, Mypy e Pylint de uma só vez!
+  task check       # Executa TODOS os testes e ferramentas acima sequencialmente. Se passar nisso, o código é ouro!
   ```
