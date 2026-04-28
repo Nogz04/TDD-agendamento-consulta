@@ -2,11 +2,22 @@
 profile = "black"
 
 [tool.pytest.ini_options]
-pythonpath = ["."]
+pythonpath = ["src"]
+
+[tool.taskipy.tasks]
+run = "python src/main.py"
+test = "pytest --cov=src/models --cov=src/service --cov=tests --cov-report=term-missing"
+format = "black . && isort ."
+lint = "flake8 . && pylint src/models src/service src/main.py"
+typecheck = "mypy src"
+check = "task format && task typecheck && task lint && task test"
 
 [tool.mypy]
 ignore_missing_imports = true
 explicit_package_bases = true
+
+[tool.pylint.main]
+init-hook='import sys; sys.path.append("src")'
 
 [tool.pylint.format]
 max-line-length = 88
@@ -17,5 +28,6 @@ disable = [
     "C0115", # missing-class-docstring
     "C0116", # missing-function-docstring
     "C0301", # line-too-long
-    "R0903"  # too-few-public-methods
+    "R0903", # too-few-public-methods
+    "R0801"  # duplicate-code
 ]

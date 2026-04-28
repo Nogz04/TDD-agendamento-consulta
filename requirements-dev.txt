@@ -12,6 +12,7 @@ flake8               # Fica brigando com você apontando variáveis inutilizadas
 
 # --- 3. Facilidades / Debug ---
 ipython              # Terminal interativo melhorado
+taskipy              # Gerenciador de comandos (runner de scripts do pyproject.toml)
 
 # --- 4. Análise Avançada ---
 mypy                 # Verificador estático de tipagem
