@@ -1,20 +1,10 @@
-from models.medico import Medico
-from models.paciente import Paciente
-
-
 def cadastrar_paciente_adm(app):
     nome = input("Nome do paciente: ")
     cpf = input("CPF do paciente: ")
-
-    if any(p.cpf == cpf for p in app.pacientes):
-        print("Erro: Já existe um paciente cadastrado com este CPF.")
-        return
-
     data_nasc = input("Data de nascimento (DD/MM/AAAA): ")
     tel = input("Telefone: ")
     try:
-        novo_paciente = Paciente(nome, cpf, data_nasc, tel)
-        app.pacientes.append(novo_paciente)
+        app.paciente_service.cadastrar_paciente(nome, cpf, data_nasc, tel)
         print(f"Paciente {nome} cadastrado com sucesso!")
     except Exception as e:
         print(f"Erro ao cadastrar paciente: {e}")
@@ -83,8 +73,9 @@ def cancelar_consulta_adm(app):
         print("Entrada inválida.")
         return
 
+    data = input("Data da consulta a cancelar (DD/MM/AAAA): ")
     hora = input("Hora da consulta a cancelar (HH:MM): ")
-    if app.gerenciador.cancelar_consulta(medico, hora):
+    if app.gerenciador.cancelar_consulta(medico, data, hora):
         print("Consulta de horário liberada na agenda do médico com sucesso.")
     else:
         print("Falha ao cancelar: o horário não constava como agendado.")
@@ -106,16 +97,10 @@ def executar(app):
         if opcao == "1":
             nome = input("Nome do médico: ")
             cpf = input("CPF do médico: ")
-
-            if any(m.cpf == cpf for m in app.medicos):
-                print("Erro: Já existe um médico cadastrado com este CPF.")
-                continue
-
             inicio = input("Horário de início (HH:MM): ")
             fim = input("Horário de fim (HH:MM): ")
             try:
-                novo_medico = Medico(nome, cpf, inicio, fim)
-                app.medicos.append(novo_medico)
+                app.medico_service.cadastrar_medico(nome, cpf, inicio, fim)
                 print(f"Médico {nome} cadastrado com sucesso!")
             except Exception as e:
                 print(f"Erro ao cadastrar médico: {e}")
@@ -126,8 +111,10 @@ def executar(app):
         elif opcao == "4":
             if not app.medicos:
                 print("Nenhum médico cadastrado.")
+                continue
+            data = input("Para qual data (DD/MM/AAAA)? ")
             for medico in app.medicos:
-                horarios = app.gerenciador.listar_horarios_disponiveis(medico)
+                horarios = app.gerenciador.listar_horarios_disponiveis(medico, data)
                 print(f"{medico}: {', '.join(horarios)}")
         elif opcao == "5":
             busca = input("Nome ou CPF do médico: ")

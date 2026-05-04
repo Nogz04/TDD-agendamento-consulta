@@ -3,65 +3,56 @@ from unittest import TestCase
 from enums.mensagens_erro import MensagensErro
 from models.medico import Medico
 from models.paciente import Paciente
-from service.agendamentos import RealizarAgendamento
+from service.agendamentos import AgendamentoService
 
 
-class TestGerenciadorAgenda(TestCase):
-
-    def setUp(self):
-        Medico.limpar_registros()  # Limpa o registro de médicos antes de cada teste, para que os testes não interfiram uns nos outros
+class TestAgendamentoService(TestCase):
 
     def test_agenda_consulta_com_sucesso(self):
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
 
-        # Criando médico e paciente
         medico = Medico("Dr House", "12345678900", "08:00", "12:00")
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
 
-        # Agendando consulta
         resultado = gerenciador.agendar_consulta(
             medico, paciente, "2026-04-23", "10:00"
         )
 
-        # Verificando se o horário foi agendado
-        # print(f"\nHorários disponíveis do {medico.nome}: {medico.horarios_disponiveis}")
-
         self.assertTrue(resultado)
+        self.assertEqual(len(gerenciador.consultas_agendadas), 1)
+        consulta = gerenciador.consultas_agendadas[0]
+        self.assertEqual(consulta.medico, medico)
+        self.assertEqual(consulta.data, "2026-04-23")
+        self.assertEqual(consulta.hora, "10:00")
 
     def test_cancelar_consulta(self):
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
 
-        # Criando médico e paciente
         medico = Medico("Dr House", "12345678900", "08:00", "12:00")
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "55984039186")
 
-        # Agendando e verificando se a consulta foi agendada com sucesso
         resultado = gerenciador.agendar_consulta(
             medico, paciente, "2026-04-23", "10:00"
         )
         self.assertTrue(resultado)
 
-        # Cancelando e verificando se a consulta foi cancelada com sucesso
-        resultado = gerenciador.cancelar_consulta(medico, "10:00")
+        resultado = gerenciador.cancelar_consulta(medico, "2026-04-23", "10:00")
         self.assertTrue(resultado)
+        self.assertEqual(len(gerenciador.consultas_agendadas), 0)
 
     def test_horario_invalido(self):
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
 
-        # Testando casos de horário inválido que devem retornar FALSO
-        self.assertFalse(gerenciador.validar_formato_horario("25:00"))  # Hora inválida
-        self.assertFalse(
-            gerenciador.validar_formato_horario("10:65")
-        )  # Minuto inválido
-        self.assertFalse(gerenciador.validar_formato_horario("9:00"))  # Formato curto
-        self.assertFalse(gerenciador.validar_formato_horario("1000"))  # Sem dois pontos
-        self.assertFalse(gerenciador.validar_formato_horario("-10:00"))  # Negativo
+        self.assertFalse(gerenciador.validar_formato_horario("25:00"))
+        self.assertFalse(gerenciador.validar_formato_horario("10:65"))
+        self.assertFalse(gerenciador.validar_formato_horario("9:00"))
+        self.assertFalse(gerenciador.validar_formato_horario("1000"))
+        self.assertFalse(gerenciador.validar_formato_horario("-10:00"))
 
-        # Testando caso verdadeiro que deve retornar TRUE
         self.assertTrue(gerenciador.validar_formato_horario("08:30"))
 
     def test_agendamento_fora_do_horario(self):
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
         medico = Medico("Dr House", "12345678900", "08:00", "10:00")
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
 
@@ -72,47 +63,64 @@ class TestGerenciadorAgenda(TestCase):
         )
 
     def test_prevencao_sobreposicao_conflito_agendamento(self):
-        # Prevenção de Sobreposição (agendar no mesmo horário já agendado)
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
         medico = Medico("Dr House", "12345678900", "08:00", "10:00")
         paciente1 = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
         paciente2 = Paciente("Douglas", "55566677788", "02/02/1990", "11888888888")
 
-        # Primeiro agendamento ok
         gerenciador.agendar_consulta(medico, paciente1, "2026-04-23", "09:00")
 
-        # Segundo agendamento no mesmo horário deve falhar
+        # Conflito no mesmo dia
         with self.assertRaises(ValueError) as context:
             gerenciador.agendar_consulta(medico, paciente2, "2026-04-23", "09:00")
         self.assertEqual(
             str(context.exception), MensagensErro.CONFLITO_DE_HORARIO.value
         )
 
-    def test_cancelar_consulta_nao_existente_retorna_falso(self):
-        gerenciador = RealizarAgendamento()
+        # Sem conflito em dias diferentes
+        resultado = gerenciador.agendar_consulta(
+            medico, paciente2, "2026-04-24", "09:00"
+        )
+        self.assertTrue(resultado)
+
+    def test_cancelamento_consulta_inexistente(self):
+        gerenciador = AgendamentoService()
         medico = Medico("Dr House", "12345678900", "08:00", "12:00")
 
-        # Tentando cancelar um horário que nunca foi agendado ("11:00" ainda está disponível na grade)
-        resultado = gerenciador.cancelar_consulta(medico, "11:00")
+        resultado = gerenciador.cancelar_consulta(medico, "2026-04-23", "11:00")
         self.assertFalse(resultado)
 
-        # Testando falha proposital no removedor interno
-        self.assertFalse(gerenciador.remover_horario_disponivel(medico, "99:99"))
+    def test_agendamento_com_formato_horario_invalido(self):
+        gerenciador = AgendamentoService()
+        medico = Medico("Dr House", "12345678900", "08:00", "12:00")
+        paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
 
-    def test_validar_formato_com_tipo_incorreto(self):
-        gerenciador = RealizarAgendamento()
-        # Forçando um erro de TypeError para o bloco try-except da validação
-        self.assertFalse(gerenciador.validar_formato_horario({}))
+        with self.assertRaises(ValueError) as context:
+            gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "25:00")
+
+        self.assertEqual(str(context.exception), MensagensErro.HORARIO_INVALIDO.value)
+
+    def test_validar_formato_que_aciona_excecoes(self):
+        gerenciador = AgendamentoService()
+        self.assertFalse(gerenciador.validar_formato_horario("aa:bb"))
+        self.assertFalse(gerenciador.validar_formato_horario(None))
 
     def test_listagens_de_consultas_e_horarios(self):
-        gerenciador = RealizarAgendamento()
+        gerenciador = AgendamentoService()
         medico = Medico("Dr House", "12345678900", "08:00", "12:00")
         paciente = Paciente("Matheus", "11122233344", "01/01/1980", "11999999999")
 
         gerenciador.agendar_consulta(medico, paciente, "2026-04-23", "10:00")
 
-        self.assertEqual(len(gerenciador.consultas_agendadas), 1)
         self.assertEqual(len(gerenciador.listar_consultas_agendadas()), 1)
         self.assertEqual(len(gerenciador.listar_agendamentos(medico)), 1)
-        self.assertEqual(len(gerenciador.listar_horarios_disponiveis(medico)), 8)
         self.assertEqual(len(gerenciador.listar_consultas_por_paciente(paciente)), 1)
+
+        # Dos 9 horários possíveis (08:00 a 12:00 = 9 turnos de 30m), 1 foi ocupado na data.
+        self.assertEqual(
+            len(gerenciador.listar_horarios_disponiveis(medico, "2026-04-23")), 8
+        )
+        # Em outro dia, todos devem estar livres
+        self.assertEqual(
+            len(gerenciador.listar_horarios_disponiveis(medico, "2026-04-24")), 9
+        )

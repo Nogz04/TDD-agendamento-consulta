@@ -31,3 +31,8 @@ disable = [
     "R0903", # too-few-public-methods
     "R0801"  # duplicate-code
 ]
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+skip-string-normalization = false

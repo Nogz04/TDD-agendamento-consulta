@@ -1,6 +1,6 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import ClassVar, List
+from typing import List
 
 from enums.mensagens_erro import MensagensErro
 
@@ -11,21 +11,10 @@ class Medico:
     cpf: str
     horario_inicio: str
     horario_fim: str
-    horarios_disponiveis: List[str] = field(init=False)
-
-    _registros: ClassVar[set[str]] = (
-        set()
-    )  # Cria um conjunto para armazenar os dados dos medicos instanciados, tipo um mini banco de dados
 
     def __post_init__(self):
         if not self.nome or not self.cpf:
             raise ValueError(MensagensErro.MEDICO_DADOS_INVALIDOS.value)
-
-        if self.cpf in Medico._registros:
-            raise ValueError(MensagensErro.MEDICO_JA_CADASTRADO.value)
-
-        Medico._registros.add(self.cpf)
-        self.horarios_disponiveis = self.gerar_grade_horarios()
 
     def gerar_grade_horarios(self) -> List[str]:
         horarios = []
@@ -42,10 +31,6 @@ class Medico:
             raise ValueError(MensagensErro.HORARIO_INVALIDO.value) from exc
 
         return horarios
-
-    @classmethod  # Permite que o método seja chamado sem criar uma instância da classe
-    def limpar_registros(cls):
-        cls._registros.clear()
 
     def __str__(self):
         return f"Dr(a). {self.nome} (CPF: {self.cpf})"

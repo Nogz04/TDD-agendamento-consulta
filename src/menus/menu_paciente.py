@@ -1,6 +1,3 @@
-from models.paciente import Paciente
-
-
 def realizar_agendamento_paciente(app, paciente):
     if not app.medicos:
         print("Não há médicos disponíveis.")
@@ -51,8 +48,10 @@ def cancelar_consulta_paciente(app, paciente):
         print("Entrada inválida.")
         return
 
-    # Extrai a hora: "Consulta: Dr House - Matheus em 23/04/2026 às 10:00"
-    hora = consulta_escolhida.split(" às ")[-1]
+    # Extrai data e hora de: "Consulta: Dr House - Matheus em 23/04/2026 às 10:00"
+    parte_em_diante = consulta_escolhida.split(" em ")[-1]
+    data = parte_em_diante.split(" às ")[0]
+    hora = parte_em_diante.split(" às ")[1]
 
     # Extrai o nome do médico
     nome_e_resto = consulta_escolhida.replace("Consulta: ", "")
@@ -63,7 +62,7 @@ def cancelar_consulta_paciente(app, paciente):
         print("Erro: Médico associado não encontrado no sistema.")
         return
 
-    if app.gerenciador.cancelar_consulta(medico_alvo, hora):
+    if app.gerenciador.cancelar_consulta(medico_alvo, data, hora):
         print("Consulta desmarcada com sucesso.")
     else:
         print(
@@ -81,8 +80,9 @@ def executar(app):
         data_nasc = input("Data de nascimento (DD/MM/AAAA): ")
         tel = input("Telefone: ")
         try:
-            paciente = Paciente(nome, cpf, data_nasc, tel)
-            app.pacientes.append(paciente)
+            paciente = app.paciente_service.cadastrar_paciente(
+                nome, cpf, data_nasc, tel
+            )
             print("Cadastro realizado com sucesso!")
         except Exception as e:
             print(f"Erro no cadastro: {e}")

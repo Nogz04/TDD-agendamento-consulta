@@ -1,19 +1,10 @@
-from models.paciente import Paciente
-
-
 def cadastrar_paciente_medico(app):
     nome = input("Nome do paciente: ")
     cpf = input("CPF do paciente: ")
-
-    if any(p.cpf == cpf for p in app.pacientes):
-        print("Erro: Já existe um paciente cadastrado com este CPF.")
-        return
-
     data_nasc = input("Data de nascimento (DD/MM/AAAA): ")
     tel = input("Telefone: ")
     try:
-        novo_paciente = Paciente(nome, cpf, data_nasc, tel)
-        app.pacientes.append(novo_paciente)
+        app.paciente_service.cadastrar_paciente(nome, cpf, data_nasc, tel)
         print(f"Paciente {nome} cadastrado com sucesso!")
     except Exception as e:
         print(f"Erro ao cadastrar paciente: {e}")
@@ -71,7 +62,8 @@ def executar(app):
         opcao = input("Escolha uma opção: ")
 
         if opcao == "1":
-            horarios = app.gerenciador.listar_horarios_disponiveis(medico)
+            data = input("Para qual data (DD/MM/AAAA)? ")
+            horarios = app.gerenciador.listar_horarios_disponiveis(medico, data)
             print(f"Horários disponíveis: {', '.join(horarios)}")
         elif opcao == "2":
             cadastrar_paciente_medico(app)
@@ -81,8 +73,9 @@ def executar(app):
             agendamentos = app.gerenciador.listar_agendamentos(medico)
             print(f"Agendamentos: {agendamentos}")
         elif opcao == "5":
+            data = input("Data da consulta a cancelar (DD/MM/AAAA): ")
             hora = input("Hora da consulta a cancelar (HH:MM): ")
-            if app.gerenciador.cancelar_consulta(medico, hora):
+            if app.gerenciador.cancelar_consulta(medico, data, hora):
                 print("Consulta desmarcada na sua agenda com sucesso.")
             else:
                 print("Falha ao cancelar: o horário não constava como agendado.")

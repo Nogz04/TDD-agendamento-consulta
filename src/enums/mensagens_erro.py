@@ -9,6 +9,7 @@ class MensagensErro(Enum):
 
     # Mensagens de erro para o cadastro de pacientes
     PACIENTE_DADOS_INVALIDOS = "Dados do paciente inválidos"
+    PACIENTE_JA_CADASTRADO = "Paciente já cadastrado"
 
     # Mensagens de erro para o cadastro de médicos
     MEDICO_DADOS_INVALIDOS = "Dados do médico inválidos"

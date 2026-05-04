@@ -1,12 +1,26 @@
 from menus import menu_medico, menu_paciente, menu_secretaria
-from service.agendamentos import RealizarAgendamento
+from service.agendamentos import AgendamentoService
+from service.medico_service import MedicoService
+from service.paciente_service import PacienteService
 
 
 class Main:
     def __init__(self):
-        self.gerenciador = RealizarAgendamento()
-        self.medicos = []
-        self.pacientes = []
+        self.agendamento_service = AgendamentoService()
+        self.medico_service = MedicoService()
+        self.paciente_service = PacienteService()
+
+    @property
+    def gerenciador(self):
+        return self.agendamento_service
+
+    @property
+    def medicos(self):
+        return self.medico_service.listar_medicos()
+
+    @property
+    def pacientes(self):
+        return self.paciente_service.listar_pacientes()
 
     def menu_principal(self):
         while True:
