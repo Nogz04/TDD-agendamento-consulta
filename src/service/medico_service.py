@@ -1,24 +1,22 @@
 from typing import List
 
 from enums.mensagens_erro import MensagensErro
-from models.medico import Medico
+from models.paciente import Paciente
 
 
-class MedicoService:
+class PacienteService:
     def __init__(self):
-        self._medicos: List[Medico] = []
-        self._cpfs_cadastrados = set()
+        self._pacientes: List[Paciente] = []
 
-    def cadastrar_medico(
-        self, nome: str, cpf: str, horario_inicio: str, horario_fim: str
-    ) -> Medico:
-        if cpf in self._cpfs_cadastrados:
-            raise ValueError(MensagensErro.MEDICO_JA_CADASTRADO.value)
+    def cadastrar_paciente(
+        self, nome: str, cpf: str, data_nascimento: str, telefone: str
+    ) -> Paciente:
+        if any(p.cpf == cpf for p in self._pacientes):
+            raise ValueError(MensagensErro.PACIENTE_JA_CADASTRADO.value)
 
-        medico = Medico(nome, cpf, horario_inicio, horario_fim)
-        self._medicos.append(medico)
-        self._cpfs_cadastrados.add(cpf)
-        return medico
+        paciente = Paciente(nome, cpf, data_nascimento, telefone)
+        self._pacientes.append(paciente)
+        return paciente
 
-    def listar_medicos(self) -> List[Medico]:
-        return self._medicos
+    def listar_pacientes(self) -> List[Paciente]:
+        return self._pacientes
