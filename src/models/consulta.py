@@ -12,4 +12,4 @@ class Consulta:
     hora: str
 
     def __str__(self):
-        return f"Consulta: {self.medico.nome} - {self.paciente.nome} em {self.data} às {self.hora}"
+        return f"Consulta: {self.medico.nome} - {self.paciente.nome} (CPF: {self.paciente.cpf}) em {self.data} às {self.hora}"
