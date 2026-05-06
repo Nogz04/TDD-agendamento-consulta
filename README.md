@@ -135,14 +135,14 @@ pip install -r requirements-dev.txt
 ```
 
 **2. Ative as Travas de Segurança Locais (`Pre-Commit`):**
-Instale o fiscal de Git! Da próxima vez que você realizar um `git commit`, robôs invisíveis automaticamente arrumarão linhas em branco desnecessárias ou impedirão que linhas sintaticamente horrendas entrem no github do time:
+Instale o verificador de Git! Da próxima vez que você realizar um `git commit`, o bot automaticamente irá arrumar as linhas em branco desnecessárias ou impedirão que linhas sintaticamente ruins entrem no github do time:
 ```bash
 pre-commit install
 ```
 
 ### 🧰 Principais Comandos do Cotidiano (Via Taskipy):
 
-O nosso projeto aboliu scripts de sistema operacional e agora usa o **Taskipy** em conjunto com o `pyproject.toml` para ser 100% multiplataforma.
+O projeto aboliu scripts de sistema operacional e agora usa o **Taskipy** em conjunto com o `pyproject.toml` para ser 100% multiplataforma.
 
 Basta rodar os atalhos abaixo no seu terminal:
 
