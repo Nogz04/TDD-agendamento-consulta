@@ -1,9 +1,6 @@
 # 🏥 TDD Agendamento de Consultas Médicas
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue)
-![TDD](https://img.shields.io/badge/TDD-100%25_Coverage-green)
-![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
-![Pylint](https://img.shields.io/badge/Pylint-10.00%2F10-brightgreen)
 
 Um sistema de gerenciamento e agendamento de consultas médicas via terminal (CLI) desenvolvido desde o princípio com a metodologia **TDD (Test-Driven Development)**, adotando as melhores práticas do ecossistema Python.
 
