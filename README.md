@@ -5,7 +5,7 @@
 ![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)
 ![Pylint](https://img.shields.io/badge/Pylint-10.00%2F10-brightgreen)
 
-Um sistema robusto de gerenciamento e agendamento de consultas médicas via terminal (CLI) desenvolvido desde o princípio com a metodologia **TDD (Test-Driven Development)**, adotando as melhores práticas do ecossistema Python moderno (Clean Code, Tipagem Estática, Linters rigorosos e automação de commits).
+Um sistema de gerenciamento e agendamento de consultas médicas via terminal (CLI) desenvolvido desde o princípio com a metodologia **TDD (Test-Driven Development)**, adotando as melhores práticas do ecossistema Python.
 
 ---
 
@@ -38,7 +38,6 @@ TDD-Agendamento-Consulta/
 │   ├── test_agendamento.py
 │   ├── test_medico.py
 │   └── test_paciente.py
-├── C4/                         # Diagramas Contextuais da Arquitetura (C4 Model)
 ├── .pre-commit-config.yaml     # Regras de proteção do Git Hooks contra envios fora de padrão
 ├── pyproject.toml              # Central de configurações avançadas (Taskipy, Pytest, Mypy, Pylint)
 ├── requirements-dev.txt        # Dependências exclusivas para desenvolvimento e arquitetura
@@ -131,7 +130,7 @@ Basta rodar os atalhos abaixo no seu terminal:
   ```
 * **Estética de Código Cega**
   ```bash
-  task format      # Aciona Black e Isort de uma só vez para arrumar seu código
+  task format      # Aciona Black e Isort de uma só vez para arrumar o código
   ```
 * **Análise Lógica Externa**
   ```bash
@@ -141,5 +140,5 @@ Basta rodar os atalhos abaixo no seu terminal:
 
 * **Automação Completa da Esteira (Sua Pipeline Local)**
   ```bash
-  task check       # Executa TODOS os testes e ferramentas acima sequencialmente. Se passar nisso, o código é ouro!
+  task check       # Executa TODOS os testes e ferramentas acima sequencialmente.
   ```
