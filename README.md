@@ -1,8 +1,12 @@
 # 🏥 TDD Agendamento de Consultas Médicas
 
-![Python](https://img.shields.io/badge/Python-3.13-blue)
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python&logoColor=white)
+![Pytest](https://img.shields.io/badge/Tests-Pytest-white?logo=pytest&logoColor=red)
+![Pylint](https://img.shields.io/badge/Linter-Pylint-blue?logo=python&logoColor=white)
+![Mypy](https://img.shields.io/badge/Type_Check-Mypy-blue)
+![Taskipy](https://img.shields.io/badge/Task_Runner-Taskipy-red)
 
-Um sistema de gerenciamento e agendamento de consultas médicas via terminal (CLI) desenvolvido desde o princípio com a metodologia **TDD (Test-Driven Development)**, adotando as melhores práticas do ecossistema Python.
+Um sistema de gerenciamento e agendamento de consultas médicas via terminal (CLI) desenvolvido rigorosamente com a metodologia **TDD (Test-Driven Development)** e seguindo princípios de **Clean Architecture**.
 
 ---
 
@@ -21,24 +25,29 @@ TDD-Agendamento-Consulta/
 ├── src/                        # Código-fonte principal da aplicação
 │   ├── enums/                  # Constantes e Enumeradores
 │   │   └── mensagens_erro.py
-│   ├── menus/                  # Telas de Interação com o Usuário
+│   ├── menus/                  # Telas de menu para Interação com o Usuário
 │   │   ├── menu_medico.py
 │   │   ├── menu_paciente.py
 │   │   └── menu_secretaria.py
-│   ├── models/                 # Entidades de Negócio do Domínio
+│   ├── models/                 # Entidades de Negócio (Camada de Domínio)
+│   │   ├── consulta.py
 │   │   ├── medico.py
 │   │   └── paciente.py
-│   ├── service/                # Orquestração e Lógica de Negócio
-│   │   └── agendamentos.py
-│   └── main.py                 # Entry Point Primário
-├── tests/                      # Suíte integral de Testes Unitários de TDD
+│   ├── service/                # Regras de Negócio e Casos de Uso
+│   │   ├── agendamentos.py
+│   │   ├── medico_service.py
+│   │   └── paciente_service.py
+│   └── main.py                 # Entry Point da aplicação
+├── tests/                      # Testes Unitários (TDD)
 │   ├── test_agendamento.py
 │   ├── test_medico.py
-│   └── test_paciente.py
-├── .pre-commit-config.yaml     # Regras de proteção do Git Hooks contra envios fora de padrão
-├── pyproject.toml              # Central de configurações avançadas (Taskipy, Pytest, Mypy, Pylint)
-├── requirements-dev.txt        # Dependências exclusivas para desenvolvimento e arquitetura
-└── requirements.txt            # Dependências da aplicação (ex: bibliotecas visuais como rich)
+│   ├── test_medico_service.py
+│   ├── test_paciente.py
+│   └── test_paciente_service.py
+├── .pre-commit-config.yaml     # Hooks de pré-commit (Lint/Format)
+├── pyproject.toml              # Configurações de ferramentas (Pytest, Mypy, Pylint, Black)
+├── requirements-dev.txt        # Dependências de desenvolvimento
+└── requirements.txt            # Dependências de produção
 ```
 
 ---
@@ -60,6 +69,17 @@ TDD-Agendamento-Consulta/
 - **Liberação de Horário:** Devolve automaticamente a janela de tempo cancelada para a agenda do médico.
 - **Validação de Formato:** Rejeita tentativas de marcação de horários diferentes de `HH:MM`.
 - **Prevenção de Overbooking:** Bloqueia agendamentos simultâneos para o mesmo médico no mesmo horário.
+
+---
+
+## 🏗️ Arquitetura e Decisões de Projeto
+
+O projeto adota uma estrutura inspirada em **Clean Architecture** para garantir que a lógica de negócio seja independente de frameworks e interfaces:
+
+- **Models (Domínio):** Contém as entidades puras e regras básicas (ex: `Medico`, `Paciente`, `Consulta`).
+- **Services (Aplicação):** Onde reside a orquestração e as regras complexas (ex: geração de grade, validação de conflitos).
+- **Menus (Interface):** Camada de interação que consome os serviços, permitindo que a UI mude sem afetar o coração do sistema.
+- **Enums:** Padronização de mensagens de erro e estados para evitar strings "mágicas" no código.
 
 ---
 
@@ -90,7 +110,7 @@ python -m venv venv
 source venv/bin/activate
 ```
 
-*(Observação Importante: Apesar das boas práticas indicarem `pip install -r requirements.txt`, nosso projeto possui pouquíssimas bibliotecas externas em Produção, limitando-se apenas a melhorias visuais de CLI, como o `rich`!)*
+*(Observação: Atualmente o projeto utiliza bibliotecas padrão do Python para garantir a compatibilidade e leveza, com foco total na lógica de negócio e testes.)*
 
 **3. Inicie o Módulo Principal:**
 Você pode rodar facilmente a aplicação através do nosso gerenciador de tarefas (caso tenha instalado as dependências de dev) ou diretamente pelo Python:
