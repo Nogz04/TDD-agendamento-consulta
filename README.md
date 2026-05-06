@@ -69,7 +69,12 @@ Deseja experimentar a interface sem se preocupar em codificar? Siga o passo a pa
 
 **1. Clone o repositório no seu computador:**
 ```bash
-git clone --single-branch --branch V3 https://github.com/Nogz04/TDD-agendamento-consulta.git
+git clone https://github.com/Nogz04/TDD-agendamento-consulta.git
+cd TDD-agendamento-consulta
+
+# ou
+
+git clone --single-branch --branch main https://github.com/Nogz04/TDD-agendamento-consulta.git
 cd TDD-agendamento-consulta
 ```
 
